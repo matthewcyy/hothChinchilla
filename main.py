@@ -23,3 +23,8 @@ while gameRunning:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             gameRunning = False
+
+    screen.fill(WHITE)
+    pygame.display.flip()
+
+pygame.quit()
