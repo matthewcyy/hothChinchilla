@@ -35,21 +35,22 @@ class Asteroid:
 
     # the asteroid will be destroyed if the laser is within 20 pixels of its center and return its value
     # it will also award points based on the asteroid destroyed
-    def destroy(self, laserx, lasery, playershot, score):
+    def destroy(self, laserx, lasery, playershot, scores):
         distance = math.sqrt(math.pow(laserx - self.asteroidX, 2) + math.pow(lasery - self.asteroidY, 2))
         if distance < 20:
             del self
             # this asteroid
-            if self.special1:
-                score += 500
-                return self.asteroidValue   # this will need to be changed to decrypt the encryption
-            elif self.special2: # if special asteroid #2, increases the player shots
-                playershot += 1
-                score += 100
-                return self.asteroidValue
-            else:
-                score += 10
-                return self.asteroidValue
+            if len(scores) > 0:
+                if self.special1:
+                    scores[0] += 500
+                    return self.asteroidValue  # this will need to be changed to decrypt the encryption
+                elif self.special2:  # if special asteroid #2, increases the player shots
+                    playershot += 1
+                    scores[0] += 100
+                    return self.asteroidValue
+                else:
+                    scores[0] += 10
+                    return self.asteroidValue
 
     # returns true if the asteroid collides with the player and false if it does not
     @staticmethod
