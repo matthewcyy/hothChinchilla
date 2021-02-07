@@ -33,6 +33,7 @@ while gameRunning:
         if event.type == pygame.QUIT:
             gameRunning = False
 
+
     keyboard_img = pygame.image.load("keyboard.png")
     keyboard_img = pygame.transform.scale(keyboard_img, (750, 400))
 
