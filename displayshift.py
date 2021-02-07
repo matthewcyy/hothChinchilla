@@ -3,7 +3,6 @@ Text box to solve encrypted text with caesar cipher in pygame
 pygame 2.0.1
 """
 
-import sys
 import pygame
 import string
 import random
@@ -40,8 +39,10 @@ class CaesarShiftDisplay(DisplayBox):
         write(self.image, self.center, str(self.shift))
 
     def update(self, shift):
+        """
         if abs(self.shift + shift) > max_shift:
             return
+        """
         self.shift += shift
         self.draw()
 
@@ -105,13 +106,13 @@ if __name__ == "__main__":
     size = width, height = 500, 500
 
     surface = pygame.display.set_mode(size)
-    hangmantext = HangmanSpace("g A h!", surface, 50, 50)
+    hangmantext = HangmanSpace("i am jeff", surface, 50, 50)
     display = CaesarShiftDisplay(surface, 350, 50, 100, 33)
 
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                break
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SEMICOLON:
                     hangmantext.reveal_letter()
@@ -130,3 +131,4 @@ if __name__ == "__main__":
         hangmantext.draw()
         display.draw()
         pygame.display.flip()
+    pygame.quit()
