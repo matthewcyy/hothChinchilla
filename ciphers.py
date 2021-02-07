@@ -14,6 +14,7 @@ def string_to_digits(text: str):
     for letter in text:
         letter = letter.upper()
         if letter not in string.ascii_uppercase:
+            digit_list.append(letter)
             continue
         digit_list.append(string.ascii_uppercase.index(letter))
 
@@ -27,6 +28,9 @@ def digits_to_string(digit_list: list):
     """
     out = ""
     for digit in digit_list:
+        if isinstance(digit, str):
+            out += digit
+            continue
         out += string.ascii_uppercase[digit]
     return out
 
@@ -40,5 +44,7 @@ def caesar_cipher(message: str, shift: int):
     """
     digit_list = string_to_digits(message)
     for i, digit in enumerate(digit_list):
+        if isinstance(digit, str):
+            continue
         digit_list[i] = (digit + shift) % 26
     return digits_to_string(digit_list)
