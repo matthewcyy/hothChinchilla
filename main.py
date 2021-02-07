@@ -1,10 +1,16 @@
-# import libraries
+#import libraries
 import pygame
-from globals import *
-# pygame initialization
+#pygame initialization
 pygame.init()
 
-# framework
+#colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+
+#framework
 size = (750, 1334)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Chinchilla")
@@ -14,17 +20,19 @@ play_area_height = -200
 play_area_height2 = -1300
 play_area_height3 = -2400
 
-# manage fps
+#manage fps
 clock = pygame.time.Clock()
 
-# ~~~~ Game loop initialization ~~~~
+#~~~~ Game loop initialization ~~~~
 gameRunning = True
 
-# ------------- Main program ---------------
+
+#------------- Main program ---------------
 while gameRunning:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             gameRunning = False
+
 
     keyboard_img = pygame.image.load("keyboard.png")
     keyboard_img = pygame.transform.scale(keyboard_img, (750, 400))
