@@ -5,6 +5,9 @@ pygame 2.0.1
 
 import sys
 import pygame
+import string
+import random
+from ciphers import caesar_cipher
 from globals import *
 pygame.init()
 
@@ -43,23 +46,76 @@ class CaesarShiftDisplay(DisplayBox):
         write(self.image, self.center, str(self.shift))
 
 
+class HangmanSpace(DisplayBox):
+    def __init__(self, code: str, screen, left, top):
+        width = (font_size + 5) * len(code)
+        height = (font_size + 10)
+        super().__init__(screen, left, top, width, height)
+        self.code = code
+        self.text = {}
+        self.shift = random.randint(-max_shift, max_shift)
+
+        # initialize to underscores separated by spaces if needed
+        for letter in code:
+            if letter in string.punctuation + ' ':
+                self.text[letter] = letter
+            else:
+                self.text[letter] = '_'
+        self.string = ' '.join([self.text[letter] for letter in code])
+        write(self.image, self.center, self.string)
+
+    def reveal_letter(self):
+        """
+        Destroyed the correct asteroid so randomly reveal a letter
+        """
+        idx = random.randint(0, len(self) - 1)
+        letter = self.code[idx]
+        self.text[letter] = caesar_cipher(letter, self.shift)
+        self.string = ' '.join([self.text[letter] for letter in self.code])
+        self.redraw()
+        write(self.image, self.center, self.string)
+
+    def apply_private_key(self, private_key_shift):
+        self.string = ' '.join([self.text[letter] for letter in self.code])
+        self.string = caesar_cipher(self.string, private_key_shift)
+        self.redraw()
+        write(self.image, self.center, self.string)
+
+    def update(self):
+        pygame.sprite.Sprite.update(self)
+        # self.string = ' '.join([self.text[letter] for letter in self.code])
+        self.redraw()
+        write(self.image, self.center, self.string)
+
+    def __len__(self):
+        return len(self.code)
+
+
 if __name__ == "__main__":
-    size = width, height = 250, 500
+    size = width, height = 500, 500
+
     surface = pygame.display.set_mode(size)
-    left, top = 120, 360
-    display = CaesarShiftDisplay(surface, left, top, 100, 33)
+    hangmantext = HangmanSpace("g A h!", surface, 50, 50)
+    display = CaesarShiftDisplay(surface, 350, 50, 100, 33)
     sprite_group = pygame.sprite.Group()
+    sprite_group.add(hangmantext)
     sprite_group.add(display)
 
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFTBRACKET:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SEMICOLON:
+                    hangmantext.reveal_letter()
+                elif event.key == pygame.K_LEFTBRACKET:
                     display.update(-1)
+                    hangmantext.apply_private_key(display.get_shift())
+                    hangmantext.update()
                 elif event.key == pygame.K_RIGHTBRACKET:
                     display.update(1)
+                    hangmantext.apply_private_key(display.get_shift())
+                    hangmantext.update()
 
         surface.fill(bgcolor)
         sprite_group.draw(surface)
