@@ -15,14 +15,14 @@ class DisplayBox:
     def __init__(self, screen, left, top, width, height):
         self.image = screen
         self.rectangle = pygame.Rect(left, top, width, height)
-        pygame.draw.rect(self.image, textcolor, self.rectangle, width=1)
+        pygame.draw.rect(self.image, WHITE, self.rectangle, width=1)
         self.topleft = (left, top)
         self.center = (left + width / 2, top + height / 2)
         self.rect = (left, top, width, height)
 
     def redraw(self):
-        pygame.draw.rect(self.image, bgcolor, self.rectangle)
-        pygame.draw.rect(self.image, textcolor, self.rectangle, width=1)
+        pygame.draw.rect(self.image, BLACK, self.rectangle)
+        pygame.draw.rect(self.image, WHITE, self.rectangle, width=1)
 
 
 class CaesarShiftDisplay(DisplayBox):
@@ -127,7 +127,7 @@ if __name__ == "__main__":
                     hangmantext.apply_private_key(display.get_shift())
                     hangmantext.draw()
 
-        surface.fill(bgcolor)
+        surface.fill(BLACK)
         hangmantext.draw()
         display.draw()
         pygame.display.flip()

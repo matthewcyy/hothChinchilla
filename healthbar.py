@@ -56,7 +56,7 @@ if __name__ == "__main__":
                 if event.key == pygame.K_SPACE:
                     lives.lose_life()
 
-        surface.fill(bgcolor)
+        surface.fill(BLACK)
         lives.draw()
         pygame.display.flip()
     pygame.quit()
