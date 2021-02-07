@@ -34,7 +34,7 @@ while gameRunning:
             gameRunning = False
 
     keyboard_img = pygame.image.load("keyboard.png")
-    keyboard_img = pygame.transform.scale(keyboard_img, (750, 350))
+    keyboard_img = pygame.transform.scale(keyboard_img, (750, 400))
 
     play_area = pygame.image.load("space.jpg")
     play_area2 = pygame.image.load("space2.jpg")
@@ -51,12 +51,10 @@ while gameRunning:
     elif play_area_height2 > size[1]-300:
         play_area_height2 = -1200
 
-
-    screen.fill(WHITE)
     screen.blit(play_area, (0, play_area_height))
     screen.blit(play_area2, (0, play_area_height2))
     screen.blit(play_area3, (0, play_area_height3))
-    screen.blit(keyboard_img, (0, play_area_size[1] - 50))
+    screen.blit(keyboard_img, (0, play_area_size[1] - 110))
     #refresh screen at 60fps
     pygame.display.flip()
     clock.tick(60)
