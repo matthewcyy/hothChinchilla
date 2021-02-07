@@ -7,15 +7,9 @@ import sys
 import pygame
 
 pygame.init()
-textboxcolor = (255, 255, 255)
-bgcolor = (0, 0, 0)
-margin = 5
-max_shift = 13
-font_size = 20
-font = pygame.font.SysFont("Menlo", font_size)
 
 
-def write(screen, rect, text, color=textboxcolor):
+def write(screen, rect, text, color=textcolor):
     text_surf = font.render(text, True, color)
     cx, cy = screen.get_rect().center
     return screen.blit(text_surf, text_surf.get_rect(center=rect.center))
@@ -27,12 +21,15 @@ class CaesarShiftDisplay(pygame.sprite.Sprite):
         self.image = pygame.Surface((2 * width, 2 * height))
         self.image.fill(bgcolor)
         self.rectangle = pygame.Rect(left, top, width, height)
-        pygame.draw.rect(self.image, textboxcolor, self.rectangle, width=1)
+        pygame.draw.rect(self.image, textcolor, self.rectangle, width=1)
         self.rect = self.image.get_rect()
         self.rect.topleft = (left, top)
         self.rect.center = (left + width / 2, top + height / 2)
         self.shift = 0
         write(self.image, self.rect, str(self.shift))
+
+    def get_shift(self):
+        return self.shift
 
     def update(self, shift):
         if abs(self.shift + shift) > max_shift:
@@ -40,7 +37,7 @@ class CaesarShiftDisplay(pygame.sprite.Sprite):
         pygame.sprite.Sprite.update(self)
         self.shift += shift
         pygame.draw.rect(self.image, bgcolor, self.rectangle)
-        pygame.draw.rect(self.image, textboxcolor, self.rectangle, width=1)
+        pygame.draw.rect(self.image, textcolor, self.rectangle, width=1)
         write(self.image, self.rect, str(self.shift))
 
 
