@@ -15,39 +15,41 @@ font_size = 20
 font = pygame.font.SysFont("Menlo", font_size)
 
 
-def write(screen, text, location, color=textboxcolor):
-    return screen.blit(font.render(text, True, color), location)
+def write(screen, rect, text, color=textboxcolor):
+    text_surf = font.render(text, True, color)
+    cx, cy = screen.get_rect().center
+    return screen.blit(text_surf, text_surf.get_rect(center=rect.center))
 
 
 class CaesarShiftDisplay(pygame.sprite.Sprite):
     def __init__(self, left, top, width, height):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((left + width, top + height))
+        self.image = pygame.Surface((2 * width, 2 * height))
         self.image.fill(bgcolor)
         self.rectangle = pygame.Rect(left, top, width, height)
-        self.margin_rect = pygame.Rect(left + 1, top + 1, width - 2, height - 2)
         pygame.draw.rect(self.image, textboxcolor, self.rectangle, width=1)
         self.rect = self.image.get_rect()
         self.rect.topleft = (left, top)
+        self.rect.center = (left + width / 2, top + height / 2)
         self.shift = 0
-        self.text_loc = ((left + width) / 2 + font_size, (top + height) / 2 + font_size)
-        write(self.image, str(self.shift), self.text_loc)
+        write(self.image, self.rect, str(self.shift))
 
     def update(self, shift):
         if abs(self.shift + shift) > max_shift:
             return
         pygame.sprite.Sprite.update(self)
         self.shift += shift
-        self.image.fill(bgcolor, self.margin_rect)
-        write(self.image, str(self.shift), self.text_loc)
+        pygame.draw.rect(self.image, bgcolor, self.rectangle)
+        pygame.draw.rect(self.image, textboxcolor, self.rectangle, width=1)
+        write(self.image, self.rect, str(self.shift))
 
 
 if __name__ == "__main__":
     size = width, height = 500, 500
 
     surface = pygame.display.set_mode(size)
-    left, top = 50, 50
-    display = CaesarShiftDisplay(left, top, 100, 50)
+    left, top = 40, 20
+    display = CaesarShiftDisplay(left, top, 100, 33)
     sprite_group = pygame.sprite.Group()
     sprite_group.add(display)
 
