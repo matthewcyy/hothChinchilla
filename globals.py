@@ -15,4 +15,4 @@ font = pygame.font.SysFont("Menlo", font_size)
 
 def write(screen, location, text, color=textcolor):
     text_surf = font.render(text, True, color)
-    return screen.blit(text_surf, text_surf.get_rect(center=location))
+    screen.blit(text_surf, text_surf.get_rect(center=location))
