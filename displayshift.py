@@ -1,5 +1,5 @@
 """
-Dial to solve encrypted text with caesar cipher in pygame
+Text box to solve encrypted text with caesar cipher in pygame
 pygame 2.0.1
 """
 
