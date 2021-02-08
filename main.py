@@ -120,6 +120,18 @@ while gameRunning:
                 player_y_speed = -5
             elif event.key == pygame.K_DOWN:
                 player_y_speed = 5
+
+            elif event.key == pygame.K_SEMICOLON:
+                hangmantext.reveal_letter()
+            elif event.key == pygame.K_LEFTBRACKET:
+                display.update(-1)
+                hangmantext.apply_private_key(display.get_shift())
+                hangmantext.draw()
+            elif event.key == pygame.K_RIGHTBRACKET:
+                display.update(1)
+                hangmantext.apply_private_key(display.get_shift())
+                hangmantext.draw()
+
         if event.type == pygame.KEYUP:
             #player stops moving in direction
             if event.key == pygame.K_RIGHT:
