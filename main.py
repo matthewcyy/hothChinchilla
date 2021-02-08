@@ -12,7 +12,7 @@ from healthbar import Lives
 pygame.init()
 
 # framework
-scale = 2
+scale = 1
 size = (375 * scale, 667 * scale)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Chinchilla")
@@ -29,13 +29,13 @@ player_y_speed = 0
 class Ship(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface([120, 120])
+        self.image = pygame.Surface([6 * scale, 60 * scale])
         self.image.fill(RED)
         self.image = pygame.image.load("ship.png")
         #sets spaceship size
-        self.image = pygame.transform.smoothscale(self.image, (120, 120))
+        self.image = pygame.transform.smoothscale(self.image, (60 * scale, 60 * scale))
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = 200, 20
+        self.rect.x, self.rect.y = 100 * scale, 10 * scale
     def update(self):
         self.rect.x += player_x_speed
         self.rect.y += player_y_speed
@@ -43,10 +43,10 @@ class Ship(pygame.sprite.Sprite):
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, ship_x_pos, ship_y_pos):
         super().__init__()
-        self.image = pygame.Surface([20, 20])
+        self.image = pygame.Surface([10 * scale, 10 * scale])
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = ship_x_pos+50, ship_y_pos-15
+        self.rect.x, self.rect.y = ship_x_pos+25 * scale, ship_y_pos-7.5 * scale
     def update(self):
         #bullet momentum continues
         self.rect.y -= 8
@@ -148,10 +148,6 @@ while gameRunning:
     screen.blit(play_area, (0, play_area_height))
     screen.blit(play_area2, (0, play_area_height2))
     screen.blit(play_area3, (0, play_area_height3))
-    
-    SpriteList.update()
-    SpriteList.draw(screen)
-    pygame.display.update()
 
     # keyboard area
     keyboard_area = pygame.Rect(0, play_area_size[1], play_area_size[0],  play_area_size[1] - 55 * scale)
@@ -164,6 +160,9 @@ while gameRunning:
     healthbar.draw()
 
     # refresh screen at 60fps
+    SpriteList.update()
+    SpriteList.draw(screen)
+    pygame.display.update()
     pygame.display.flip()
     clock.tick(60)
 
