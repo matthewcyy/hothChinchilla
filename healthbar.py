@@ -8,7 +8,6 @@ from globals import *
 pygame.init()
 
 margin = 10  # px
-gameRunning = True
 
 
 class Heart:
@@ -43,6 +42,7 @@ class Lives:
 
 
 if __name__ == "__main__":
+    gameRunning = True
     size = width, height = 200, 200
     surface = pygame.display.set_mode(size)
     lives = Lives(surface, 30, 20, 7)
@@ -51,6 +51,7 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 gameRunning = False
+                break
             # replace this with the signal the asteroid sends out
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:

@@ -103,16 +103,17 @@ class HangmanSpace(DisplayBox):
 
 
 if __name__ == "__main__":
+    gameRunning = True
     size = width, height = 500, 500
 
     surface = pygame.display.set_mode(size)
     hangmantext = HangmanSpace("i am jeff", surface, 50, 50)
     display = CaesarShiftDisplay(surface, 350, 50, 100, 33)
 
-    while 1:
+    while gameRunning:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                break
+                gameRunning = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SEMICOLON:
                     hangmantext.reveal_letter()

@@ -1,6 +1,6 @@
 """
 Globals
-word functions and words.txt taken from MITx 6.00.1x Introduction to Computer Science and Programming Using Python
+words.txt taken from MITx 6.00.1x Introduction to Computer Science and Programming Using Python
 """
 import pygame
 
