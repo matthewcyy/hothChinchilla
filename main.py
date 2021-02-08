@@ -12,7 +12,7 @@ from healthbar import Lives
 pygame.init()
 
 # framework
-scale = 1
+scale = 2
 size = (375 * scale, 667 * scale)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Chinchilla")
