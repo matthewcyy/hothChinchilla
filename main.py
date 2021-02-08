@@ -148,10 +148,6 @@ while gameRunning:
     screen.blit(play_area, (0, play_area_height))
     screen.blit(play_area2, (0, play_area_height2))
     screen.blit(play_area3, (0, play_area_height3))
-    
-    SpriteList.update()
-    SpriteList.draw(screen)
-    pygame.display.update()
 
     # keyboard area
     keyboard_area = pygame.Rect(0, play_area_size[1], play_area_size[0],  play_area_size[1] - 55 * scale)
@@ -164,6 +160,9 @@ while gameRunning:
     healthbar.draw()
 
     # refresh screen at 60fps
+    SpriteList.update()
+    SpriteList.draw(screen)
+    pygame.display.update()
     pygame.display.flip()
     clock.tick(60)
 
