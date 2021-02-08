@@ -15,14 +15,14 @@ class DisplayBox:
     def __init__(self, screen, left, top, width, height):
         self.image = screen
         self.rectangle = pygame.Rect(left, top, width, height)
-        pygame.draw.rect(self.image, textcolor, self.rectangle, width=1)
+        pygame.draw.rect(self.image, WHITE, self.rectangle, width=1)
         self.topleft = (left, top)
         self.center = (left + width / 2, top + height / 2)
         self.rect = (left, top, width, height)
 
     def redraw(self):
-        pygame.draw.rect(self.image, bgcolor, self.rectangle)
-        pygame.draw.rect(self.image, textcolor, self.rectangle, width=1)
+        pygame.draw.rect(self.image, BLACK, self.rectangle)
+        pygame.draw.rect(self.image, WHITE, self.rectangle, width=1)
 
 
 class CaesarShiftDisplay(DisplayBox):
@@ -91,9 +91,6 @@ class HangmanSpace(DisplayBox):
         self.revealed = True
 
     def apply_private_key(self, private_key_shift):
-        for letter in self.text:
-            if self.text[letter] == '_':
-                return
         self.string = ' '.join([self.text[letter] for letter in self.code])
         self.string = caesar_cipher(self.string, private_key_shift)
         self.draw()
@@ -103,16 +100,17 @@ class HangmanSpace(DisplayBox):
 
 
 if __name__ == "__main__":
+    gameRunning = True
     size = width, height = 500, 500
 
     surface = pygame.display.set_mode(size)
     hangmantext = HangmanSpace("i am jeff", surface, 50, 50)
     display = CaesarShiftDisplay(surface, 350, 50, 100, 33)
 
-    while 1:
+    while gameRunning:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                break
+                gameRunning = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SEMICOLON:
                     hangmantext.reveal_letter()
@@ -127,7 +125,7 @@ if __name__ == "__main__":
                     hangmantext.apply_private_key(display.get_shift())
                     hangmantext.draw()
 
-        surface.fill(bgcolor)
+        surface.fill(BLACK)
         hangmantext.draw()
         display.draw()
         pygame.display.flip()
