@@ -91,9 +91,6 @@ class HangmanSpace(DisplayBox):
         self.revealed = True
 
     def apply_private_key(self, private_key_shift):
-        for letter in self.text:
-            if self.text[letter] == '_':
-                return
         self.string = ' '.join([self.text[letter] for letter in self.code])
         self.string = caesar_cipher(self.string, private_key_shift)
         self.draw()

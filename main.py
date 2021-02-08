@@ -7,6 +7,7 @@ import pygame
 import random
 from globals import *
 from displayshift import CaesarShiftDisplay, HangmanSpace
+from healthbar import Lives
 # pygame initialization
 pygame.init()
 
@@ -30,11 +31,21 @@ play_area_height3 = -1200 * scale
 hangmantext = HangmanSpace(word, screen,
                            play_area_size[0] // 2 - scale * (font_size + 5) * len(word),
                            play_area_size[1] + scale * 50)
+code_loc = list(hangmantext.center)
+code_loc[1] -= 30
+
 caesar_width, caesar_height = 100, (font_size + 10)
 display = CaesarShiftDisplay(screen,
                              play_area_size[0] // 2 + scale * (font_size + 5) * len(word) - caesar_width,
                              play_area_size[1] + scale * 50,
                              caesar_width, caesar_height)
+shift_loc = list(display.center)
+shift_loc[1] -= 30
+
+healthbar = Lives(screen, play_area_size[0] // 2, play_area_size[1] + scale * 100, 5, font_size)
+lives_loc = list(healthbar.hearts[0].topleft)
+lives_loc[0] -= (font_size * 2)
+lives_loc[1] += healthbar.hearts[0].size // 2
 
 # manage fps
 clock = pygame.time.Clock()
@@ -48,12 +59,14 @@ while gameRunning:
         if event.type == pygame.QUIT:
             gameRunning = False
 
-        # PLACEHOLDER FOR ASTEROID EVENTS
         if event.type == pygame.KEYDOWN:
+            # TODO: placeholder for asteroid events
             if event.key == pygame.K_SEMICOLON:
                 hangmantext.reveal_letter()
-            elif not hangmantext.revealed:
-                continue
+            # TODO: DO WE WANT THIS:
+            # elif not hangmantext.revealed:
+            #     continue
+            # TODO: placeholder for solving the cipher
             elif event.key == pygame.K_LEFTBRACKET:
                 display.update(-1)
                 hangmantext.apply_private_key(display.get_shift())
@@ -62,6 +75,11 @@ while gameRunning:
                 display.update(1)
                 hangmantext.apply_private_key(display.get_shift())
                 hangmantext.draw()
+            # TODO: placeholder for losing a life
+            elif event.key == pygame.K_SPACE:
+                healthbar.lose_life()
+                if healthbar.num_lives() <= 0:
+                    gameRunning = False
 
     # play area
     play_area = pygame.image.load("space.jpg")
@@ -84,8 +102,12 @@ while gameRunning:
     # keyboard area
     keyboard_area = pygame.Rect(0, play_area_size[1], play_area_size[0],  play_area_size[1] - 55 * scale)
     pygame.draw.rect(screen, KEYBOARD_BG, keyboard_area)
+    write(screen, shift_loc, "SHIFT:")
     display.draw()
+    write(screen, code_loc, "CODE:")
     hangmantext.draw()
+    write(screen, lives_loc, "LIVES:")
+    healthbar.draw()
 
     # refresh screen at 60fps
     pygame.display.flip()
